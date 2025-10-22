@@ -6,7 +6,7 @@
 <mapper namespace="springbook.chatbotserver.chat.model.mapper.DepartmentMapper">
 
     <select id="findDepartmentsInBuilding" resultType="springbook.chatbotserver.chat.model.domain.Department">
-        SELECT d.name
+        SELECT d.name AS "name"
         FROM departments d
                  JOIN buildings b ON d.building_number = b.building_number
         WHERE b.name = #{buildingName};

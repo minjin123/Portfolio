@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
-import springbook.chatbotserver.chat.model.domain.ChatLog;
 import springbook.chatbotserver.chat.model.dto.RasaRequest;
 import springbook.chatbotserver.chat.model.dto.RasaResponse;
-import springbook.chatbotserver.chat.model.repository.ChatLogRepository;
 import springbook.chatbotserver.chat.service.strategy.IntentStrategy;
 import springbook.chatbotserver.chat.service.strategy.StrategyFactory;
 import springbook.chatbotserver.config.exception.CustomException;
@@ -30,7 +28,8 @@ public class RasaService {
 
   private final RestTemplate restTemplate;
   private final StrategyFactory strategyFactory;
-  private final ChatLogRepository chatLogRepository;
+  private final ChatLogService chatLogService;
+
   @Value("${IP}")
   private String ip;
 
@@ -44,36 +43,23 @@ public class RasaService {
    */
   public String sendMessageToRasa(RasaRequest req) {
     // 사용자 메시지 로그 저장
-    saveUserMessage(req);
-
+    chatLogService.saveUserMessage(req);
     // Rasa 서버에 POST 요청
     RasaResponse rasa = getRasaResponse(req);
 
-    // 챗봇 응답 메시지 로그 저장
-    String botMessage = handleIntent(rasa);
-    saveBotMessage(req, botMessage);
-
     // 전략 실행
+    String botMessage;
+    try {
+     botMessage = handleIntent(rasa);
+    } catch (CustomException e) {
+      botMessage = e.getMessage();
+    }
+    // 챗봇 응답 메시지 로그 저장
+    chatLogService.saveBotMessage(req, botMessage);
+
     return botMessage;
   }
 
-  private void saveUserMessage(RasaRequest req) {
-    chatLogRepository.save(ChatLog.builder()
-        .deviceId(req.getDeviceId())
-        .timestamp(LocalDateTime.now())
-        .messageType("user")
-        .text(req.getText())
-        .build());
-  }
-
-  private void saveBotMessage(RasaRequest req, String botText) {
-    chatLogRepository.save(ChatLog.builder()
-        .deviceId(req.getDeviceId())
-        .timestamp(LocalDateTime.now())
-        .messageType("bot")
-        .text(botText)
-        .build());
-  }
 
   private RasaResponse getRasaResponse(RasaRequest req) {
     HttpHeaders headers = new HttpHeaders();

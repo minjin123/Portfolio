@@ -1,5 +1,7 @@
 package springbook.chatbotserver.chat.service.strategy;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import springbook.chatbotserver.chat.model.dto.RasaResponse;
 import springbook.chatbotserver.config.exception.CustomException;
 import springbook.chatbotserver.config.exception.ErrorCode;
@@ -24,6 +26,7 @@ public abstract class AbstractIntentStrategy implements IntentStrategy {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public String handle(RasaResponse response) {
     String entityValue = getEntityValue(response, entityName);
     if (entityValue.isBlank()) {

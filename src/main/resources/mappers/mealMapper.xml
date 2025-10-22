@@ -6,7 +6,7 @@
 <mapper namespace="springbook.chatbotserver.chat.model.mapper.MealMapper">
 
     <select id="findMealsByDates" resultType="springbook.chatbotserver.chat.model.dto.MealResponse">
-        SELECT mm.menu_item, m.meal_date, m.meal_type
+        SELECT mm.menu_item AS "menuItem", m.meal_date AS "date", m.meal_type AS "mealType"
         FROM meal m
         JOIN meal_menu mm ON m.id = mm.meal_id
         WHERE m.dormitory_id = #{buildingNumber}
