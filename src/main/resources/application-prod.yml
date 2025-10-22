@@ -1,15 +1,16 @@
 spring:
   data:
     mongodb:
-      host: mongodb
+      host: mongodb-container
       port: 27017
       database: mydb
       username: admin
-      password: ENC(+ctJqWTzlzRETWi3r2sKBFaLzV0ZeyNL)
+      password: ENC(18Nh9hCssDWdupsG5tZU8CrIAD0iHE4r)
+      authentication-database: admin
   datasource:
     url: jdbc:mariadb://mariadb-container:3306/mydb?allowPublicKeyRetrieval=true&useSSL=false
     username: admin
-    password: ENC(+N7WLIO0LxO464K7sJ7zwB5Jo9xBATvU)
+    password: ENC(18Nh9hCssDWdupsG5tZU8CrIAD0iHE4r)
     driver-class-name: org.mariadb.jdbc.Driver
 
 mybatis:

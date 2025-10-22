@@ -3,6 +3,7 @@ package springbook.chatbotserver.chat.service.strategy.intent.meal;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import springbook.chatbotserver.chat.model.dto.MealResponse;
@@ -41,6 +42,7 @@ public class MealStrategy implements IntentStrategy {
    * @return 식단 정보 또는 안내 메시지 문자열
    */
   @Override
+  @Transactional(readOnly = true)
   public String handle(RasaResponse response) {
     String dorm = extract(response, "dorm", "");
     String time = extract(response, "time", "오늘");

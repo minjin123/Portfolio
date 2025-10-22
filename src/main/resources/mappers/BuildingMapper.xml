@@ -6,18 +6,18 @@
 <mapper namespace="springbook.chatbotserver.chat.model.mapper.BuildingMapper">
 
     <select id="findByBuildingNumber" resultType="springbook.chatbotserver.chat.model.domain.Building">
-        SELECT *
+        SELECT name, building_number AS "buildingNumber", map_url AS "mapUrl"
         FROM buildings
         WHERE building_number = #{buildingNumber}
     </select>
     <select id="findBuildingNameOfDepartment" resultType="springbook.chatbotserver.chat.model.domain.Building">
-        SELECT *
+        SELECT b.name AS "name", b.building_number AS "buildingNumber", b.map_url AS "mapUrl"
         FROM buildings b
                  JOIN departments d ON d.building_number = b.building_number
         WHERE d.name = #{departmentName};
     </select>
     <select id="findBuildingNumberOfBuildingName" resultType="int">
-        SELECT building_number
+        SELECT building_number AS "buildingNumber"
         FROM buildings
         WHERE name = #{buildingName};
     </select>
