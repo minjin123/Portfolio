@@ -72,11 +72,7 @@ public class RasaService {
         RasaResponse.class
     );
 
-    RasaResponse rasa = response.getBody();
-    if (rasa == null) {
-      throw new CustomException(ErrorCode.RASA_SERVER_ERROR);
-    }
-    return rasa;
+      return response.getBody();
   }
 
   private String handleIntent(RasaResponse rasa) {
