@@ -1,5 +1,6 @@
 package springbook.chatbotserver.chat.service.strategy.intent;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import springbook.chatbotserver.chat.model.domain.Professor;
@@ -23,6 +24,7 @@ public class ProfessorStrategy extends AbstractIntentStrategy {
   }
 
   @Override
+  @Cacheable(cacheNames = "professor")
   public String handleEntityValue(String entityValue) {
 
     Professor professor = professorMapper.findOfficeByProfessorName(entityValue);

@@ -1,5 +1,7 @@
 package springbook.chatbotserver.chat.service.strategy.intent;
 
+
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import springbook.chatbotserver.chat.model.domain.Building;
@@ -18,14 +20,15 @@ public class RoomNumberStrategy extends AbstractIntentStrategy {
 
   private final BuildingMapper buildingMapper;
 
+
   public RoomNumberStrategy(BuildingMapper buildingMapper) {
     super("ask_room_location", "room_number");
     this.buildingMapper = buildingMapper;
   }
 
   @Override
+  @Cacheable(cacheNames = "roomNumber")
   public String handleEntityValue(String entityValue) {
-
     RoomInfo roomInfo = parseRoomInfo(entityValue);
     if (!roomInfo.isValid()) {
       throw new CustomException(ErrorCode.INVALID_ROOM_NUMBER);
