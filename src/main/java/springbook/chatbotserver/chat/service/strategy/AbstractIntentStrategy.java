@@ -1,6 +1,5 @@
 package springbook.chatbotserver.chat.service.strategy;
 
-import org.springframework.aop.framework.AopContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import springbook.chatbotserver.chat.model.dto.RasaResponse;
@@ -33,7 +32,7 @@ public abstract class AbstractIntentStrategy implements IntentStrategy {
     if (entityValue.isBlank()) {
       throw new CustomException(ErrorCode.INTENT_NOT_FOUND);
     }
-    return ((AbstractIntentStrategy) AopContext.currentProxy()).handleEntityValue(entityValue);
+    return handleEntityValue(entityValue);
   }
 
   private String getEntityValue(RasaResponse response, String entityName) {

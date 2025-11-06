@@ -1,5 +1,7 @@
 package springbook.chatbotserver.chat.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +32,6 @@ public class RasaService {
 
   @Value("${IP}")
   private String ip;
-
 
   /**
    * 사용자 요청 메시지를 Rasa 서버로 전송하고,
@@ -71,7 +72,11 @@ public class RasaService {
         RasaResponse.class
     );
 
-      return response.getBody();
+    RasaResponse rasa = response.getBody();
+    if (rasa == null) {
+      throw new CustomException(ErrorCode.RASA_SERVER_ERROR);
+    }
+    return rasa;
   }
 
   private String handleIntent(RasaResponse rasa) {
