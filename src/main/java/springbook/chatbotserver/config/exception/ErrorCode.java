@@ -27,7 +27,9 @@ public enum ErrorCode {
   // 500 Internal Server Error
   INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5000, "서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해주세요."),
   RASA_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5001, "Rasa 서버와의 통신 중 오류가 발생했습니다."),
-  FAILED_CRAWLING(HttpStatus.INTERNAL_SERVER_ERROR, 5002, "크롤링에 실패했습니다.");
+  FAILED_CRAWLING(HttpStatus.INTERNAL_SERVER_ERROR, 5002, "크롤링에 실패했습니다."),
+  // 504 Gateway Timeout
+  CONNECTION_TIMEOUT(HttpStatus.INTERNAL_SERVER_ERROR, 5003, "사용자가 너무 많아서 요청을 처리하지 못하고 있습니다. 잠시 후 다시 시도해주세요.");
 
   private final HttpStatus status;
   private final int subCode;

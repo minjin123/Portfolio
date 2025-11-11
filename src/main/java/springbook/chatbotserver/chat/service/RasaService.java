@@ -8,7 +8,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+import lombok.extern.slf4j.Slf4j;
 
 import lombok.RequiredArgsConstructor;
 import springbook.chatbotserver.chat.model.dto.RasaRequest;
@@ -23,6 +25,7 @@ import springbook.chatbotserver.config.exception.ErrorCode;
  * 사용자 메시지를 Rasa 서버에 전송하고, 응답 결과를 기반으로 적절한 전략을 적용하여 응답을 생성합니다.
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class RasaService {
 
@@ -30,8 +33,8 @@ public class RasaService {
   private final StrategyFactory strategyFactory;
   private final ChatLogService chatLogService;
 
-  @Value("${IP}")
-  private String ip;
+  @Value("${URL}")
+  private String url;
 
   /**
    * 사용자 요청 메시지를 Rasa 서버로 전송하고,
@@ -44,13 +47,13 @@ public class RasaService {
   public String sendMessageToRasa(RasaRequest req) {
     // 사용자 메시지 로그 저장
     chatLogService.saveUserMessage(req);
-    // Rasa 서버에 POST 요청
-    RasaResponse rasa = getRasaResponse(req);
 
-    // 전략 실행
     String botMessage;
     try {
-     botMessage = handleIntent(rasa);
+      // Rasa 서버에 POST 요청
+      RasaResponse rasa = getRasaResponse(req);
+      // 전략 실행
+      botMessage = handleIntent(rasa);
     } catch (CustomException e) {
       botMessage = e.getMessage();
     }
@@ -65,14 +68,22 @@ public class RasaService {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<RasaRequest> entity = new HttpEntity<>(req, headers);
-    String rasaUrl = "http://" + ip + ":5005/model/parse";
-    ResponseEntity<RasaResponse> response = restTemplate.postForEntity(
-        rasaUrl,
-        entity,
-        RasaResponse.class
-    );
-
+    String rasaUrl = url;
+    try {
+      ResponseEntity<RasaResponse> response = restTemplate.postForEntity(
+          rasaUrl,
+          entity,
+          RasaResponse.class
+      );
       return response.getBody();
+    } catch (RestClientResponseException e) {
+      log.error("Rasa server error at {}: {}, {}", LocalDateTime.now(), e.getStatusCode(), e.getMessage());
+      throw new CustomException(ErrorCode.CONNECTION_TIMEOUT);
+    } catch (Exception e) {
+      log.error("Unexpected error when communicating with Rasa server at {}: {}", LocalDateTime.now(), e.getMessage());
+      throw new CustomException(ErrorCode.RASA_SERVER_ERROR);
+    }
+
   }
 
   private String handleIntent(RasaResponse rasa) {
