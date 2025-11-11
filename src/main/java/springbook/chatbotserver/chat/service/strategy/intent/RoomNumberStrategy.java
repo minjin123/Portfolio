@@ -1,5 +1,6 @@
 package springbook.chatbotserver.chat.service.strategy.intent;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import springbook.chatbotserver.chat.model.domain.Building;
@@ -24,6 +25,7 @@ public class RoomNumberStrategy extends AbstractIntentStrategy {
   }
 
   @Override
+  @Cacheable(cacheNames = "roomNumber")
   public String handleEntityValue(String entityValue) {
 
     RoomInfo roomInfo = parseRoomInfo(entityValue);

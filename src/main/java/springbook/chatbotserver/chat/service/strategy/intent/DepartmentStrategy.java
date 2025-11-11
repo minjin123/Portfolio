@@ -3,6 +3,7 @@ package springbook.chatbotserver.chat.service.strategy.intent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import springbook.chatbotserver.chat.model.domain.Building;
@@ -26,6 +27,7 @@ public class DepartmentStrategy extends AbstractIntentStrategy {
   }
 
   @Override
+  @Cacheable(cacheNames = "department")
   public String handleEntityValue(String entityValue) {
 
     String departmentName = extractDepartmentName(entityValue);
