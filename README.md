@@ -51,18 +51,24 @@ MongoDB
     - MongoDB: 대화 기록 저장을 위한 컬렉션
 
 --- 
-## [4] API 문서
+## [4] 클래스 다이어그램
+<img width="1092" height="665" alt="image" src="https://github.com/user-attachments/assets/4b295b8d-4b99-4bcd-969a-1e3d366744da" />
+
+## [5] 시퀀스 다이어그램
+<img width="1230" height="632" alt="image" src="https://github.com/user-attachments/assets/1d3ccfec-7fa6-454f-8fdd-63850ebc1668" />
+
+## [6] API 문서
 
 ![12314414.png](image/12314414.png)
 
 - **채팅 API**
 ![화면 캡처 2025-06-25 224831.png](image/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202025-06-25%20224831.png)
 
-## [5] 실행 화면
+## [7] 실행 화면
 
 ![Screenshot_20250626-214651.png](image/Screenshot_20250626-214651.png)
 
-## [6] 고민 사항 및 해결 방안
+## [8] 고민 사항 및 해결 방안
 
 ### 설계 부분
 
