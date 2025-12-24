@@ -15,7 +15,7 @@
 - **진행 기간**: 2025.03.13 ~ 2025.06.25
 - **담당역할**:
     - RESTful API 설계 및 구현 (Spring Boot 기반)
-    - 데이터베이스 모델링 및 MariaDB 와 MongoDB 연동
+    - 데이터베이스 모델링 및 MariaDB 연동
     - Rasa 프레임 워크를 통해 추출된 인텐트를 전략 패턴을 통해 구분하여 적절한 응답하는 로직 구현
     - 사용자 앱에 전체적인 대화 기록을 전달하는 로직 구현
 
@@ -25,7 +25,7 @@
  - 언어: dart, java, python
  - 프레임워크: Flutter, Spring Boot, Rasa
  - 빌드 도구: Gradle
- - 데이터베이스: MariaDB, MongoDB
+ - 데이터베이스: MariaDB
  - 보안: jasypt
 
   ---
@@ -35,20 +35,9 @@
 MariaDB
 ![ERD](image/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202025-06-24%20202925.png)
 
-MongoDB
-```document
-{
-    "_id": "ObjectId",
-    "deviceId": "String",
-    "timestamp": "DateTime",
-    "messageType": "String",
-    "text": "String"
-}
-```
-
 - **데이터베이스 스키마**: 
     - MariaDB: 학과, 교수, 건물, 시설(atm,프린터기,교내매점,편의점,교내카페), 식당 정보 테이블
-    - MongoDB: 대화 기록 저장을 위한 컬렉션
+   
 
 --- 
 ## [4] 클래스 다이어그램
