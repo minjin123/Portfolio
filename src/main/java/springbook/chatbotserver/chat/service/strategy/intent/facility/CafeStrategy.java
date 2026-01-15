@@ -19,8 +19,8 @@ import springbook.chatbotserver.config.exception.ErrorCode;
 public class CafeStrategy extends AbstractIntentStrategy {
 
   private static final Map<String, String> facilityMap = Map.of(
-      "카페", "convenience_store",
-      "교내카페", "convenience_store"
+      "카페", "cafe",
+      "교내카페", "cafe"
   );
   private final FacilityMapper facilityMapper;
 
